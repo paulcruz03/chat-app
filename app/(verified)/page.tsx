@@ -1,7 +1,9 @@
-import Image from "next/image";
+import ChatInput from "@/components/widgets/chat-input";
 
-export default function Home() {
+export default async function Home() {
   return (
-    <>test</>
+    <div className="container mx-auto flex h-screen items-center justify-center">
+      <ChatInput/>
+    </div>
   );
 }

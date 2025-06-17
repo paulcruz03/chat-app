@@ -1,6 +1,7 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/sidebar"
 import { Header } from "@/components/header";
+import { Suspense } from "react";
 
 export default function VerifiedLayout({
   children,
@@ -9,12 +10,12 @@ export default function VerifiedLayout({
 }>) {
   return (
     <SidebarProvider>
-      <AppSidebar variant="inset"  />
+      <AppSidebar />
       <SidebarInset>
-      <Header />
-      <main>
+        <Header />
+        <main>
           {children}
-      </main>
+        </main>
       </SidebarInset>
     </SidebarProvider>
   );

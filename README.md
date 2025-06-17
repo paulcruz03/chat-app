@@ -14,5 +14,5 @@ npm run dev
 ```
 - setup env
 ```
-FIREBASE_SERVICE_ACCOUNT_JSON=${key}
+NEXT_PUBLIC_FIREBASE_CONFIG=${key}
 ```
