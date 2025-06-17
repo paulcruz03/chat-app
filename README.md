@@ -1,6 +1,6 @@
 # Chatbot App
 
-Sample Project to upskill AI Prompt development. For this project, I used NextJS to generate user interface for the backend. For backend, I used Go lang for fast development compared to NodeJS. For Ai, I used Google's `gemini-2.0-flash-exp` model. 
+Sample Project to upskill AI Prompt development. For this project, I used NextJS to generate user interface for the backend. For [backend](https://github.com/paulcruz03/ai-chatbot), I used Go lang for fast development compared to NodeJS. For Ai, I used Google's `gemini-2.0-flash-exp` model. 
 
 ## Setup
 - use npm to install then run
