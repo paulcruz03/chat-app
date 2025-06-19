@@ -1,5 +1,5 @@
 'use client';
-import { JSX, useEffect, useState } from "react";
+import { JSX } from "react";
 
 import { ChevronUp, Home, Inbox, User2 } from "lucide-react"
 
@@ -23,8 +23,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/contexts/auth"
-import { getChatList } from "@/lib/firebase-client";
-import { ChatHistory } from "@/schema";
 
 // Menu items.
 const items = [
@@ -69,33 +67,7 @@ function LoadingState(): JSX.Element {
 }
 
 export function AppSidebar({ variant = undefined }: { variant?: "inset" | "sidebar" | "floating" | undefined }) {
-  const [loading, setLoading] = useState(true)
-  const [chats, setChats] = useState<ChatHistory[]>([])
-  const { user } = useAuth()
-
-  useEffect(() => {
-    if (user) {
-      getChatList().then((snapshot) => {
-        if (snapshot.exists()) {
-          const loadedItems: ChatHistory[] = [];
-
-          snapshot.forEach((childSnapshot) => {
-            const itemKey = childSnapshot.key;
-            const itemValue = childSnapshot.val();
-
-            // Add the key to the item object for easier rendering
-            loadedItems.push({
-              id: itemKey,
-              ...itemValue // Spread the item's properties (name, price, etc.)
-            });
-          });
-
-          setChats(loadedItems)
-          setLoading(false)
-        }
-      })
-    }
-  }, [user]) 
+  const { user, chats, loading } = useAuth()
 
   return (
     <Sidebar variant={variant} collapsible="icon">

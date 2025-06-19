@@ -2,10 +2,12 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { setupFirebase } from '@/lib/firebase-client';
+import { getChatList, setupFirebase } from '@/lib/firebase-client';
+import { ChatHistoryEntry } from '@/schema';
 
 interface AuthContextType {
   user: User | null;
+  chats: ChatHistoryEntry[];
   loading: boolean;
 }
 
@@ -15,23 +17,42 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { auth } = setupFirebase();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [chats, setChats] = useState<ChatHistoryEntry[]>([])
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
         setUser(firebaseUser);
-        console.log(firebaseUser.getIdToken())
+        getChatList().then((snapshot) => {
+          if (snapshot.exists()) {
+            const loadedItems: ChatHistoryEntry[] = [];
+
+            snapshot.forEach((childSnapshot) => {
+              const itemKey = childSnapshot.key;
+              const itemValue = childSnapshot.val();
+
+              // Add the key to the item object for easier rendering
+              loadedItems.push({
+                id: itemKey,
+                ...itemValue // Spread the item's properties (name, price, etc.)
+              });
+            });
+
+            setChats(loadedItems)
+            setLoading(false)
+          }
+        })
       } else {
         setUser(null);
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, loading, chats }}>
       {children}
     </AuthContext.Provider>
   );

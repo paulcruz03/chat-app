@@ -1,3 +1,5 @@
+import { ChatUi } from "@/components/widgets/chat-ui"
+
 export default async function Page({
   params,
 }: {
@@ -5,6 +7,8 @@ export default async function Page({
 }) {
   const { chatId } = await params
   return (
-    <>{chatId}</>
+    <div className="container mx-auto flex flex-col h-screen items-center justify-center">
+      <ChatUi chatId={chatId} />
+    </div>
   )
 }
