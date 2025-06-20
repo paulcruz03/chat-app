@@ -1,4 +1,4 @@
-export interface ChatHistory { text: string; role: string; }
+export interface ChatHistory { text: string; role: 'model' | 'user'; }
 
 export interface ChatHistoryEntry {
   id: string;

@@ -33,7 +33,7 @@ export async function signIn(email: string, password: string) {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
     const idToken = await userCredential.user.getIdToken();
-    Cookies.set("__session", idToken, {
+    await Cookies.set("__session", idToken, {
       expires: 7
     })
 

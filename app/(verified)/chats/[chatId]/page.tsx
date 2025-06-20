@@ -7,7 +7,7 @@ export default async function Page({
 }) {
   const { chatId } = await params
   return (
-    <div className="container mx-auto flex flex-col h-screen items-center justify-center">
+    <div className="container px-4 lg:px-0 mx-auto flex flex-col h-screen items-center justify-center">
       <ChatUi chatId={chatId} />
     </div>
   )

@@ -12,11 +12,11 @@ import {
 } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 
-export default function ChatInput({ loading, hideTitle, submit }: { loading: boolean; hideTitle: boolean; submit: (message: string)=>{} }) {
+export default function ChatInput({ loading, hideTitle, submit }: { loading: boolean; hideTitle?: boolean; submit: (message: string)=>{} }) {
   const [message, setMessage] = useState('');
 
   return (
-    <Card className="w-full mx-10 lg:max-w-xl">
+    <Card className="w-full mx-10 lg:max-w-5xl">
       {!hideTitle && <CardHeader>
         <CardTitle className="text-center">
           <h2 className="text-2xl">

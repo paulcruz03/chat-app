@@ -1,7 +1,7 @@
 "use client"
 
 import { Loader2 } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { signIn } from "@/lib/firebase-client"
+import { useAuth } from "@/contexts/auth"
 
 const FormSchema = z.object({
   username: z.string().min(8, {
@@ -35,7 +36,14 @@ const FormSchema = z.object({
 })
 
 export function LoginForm() {
+  const { user } = useAuth()
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      console.log(user)
+    }
+  }, [user])
   
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -55,10 +63,12 @@ export function LoginForm() {
       ),
     })
     try {
-      
       await signIn(data.username, data.password)
       toast.success("Login successful!")
-      window.location.reload()
+      if (user) {
+        window.location.replace("/")
+      }
+      // window.location.reload()
     } catch (err: any) {
       toast.error(err.message)
       setIsSubmitted(false)

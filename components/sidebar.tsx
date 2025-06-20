@@ -23,19 +23,15 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/contexts/auth"
+import { signOut } from "@/lib/firebase-client";
 
 // Menu items.
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: "/",
     icon: Home,
   },
-  {
-    title: "New Chats",
-    url: "#",
-    icon: Inbox,
-  }
 ]
 
 function LoadingState(): JSX.Element {
@@ -121,7 +117,7 @@ export function AppSidebar({ variant = undefined }: { variant?: "inset" | "sideb
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <SidebarMenuButton>
-                    <User2 /> Username
+                    <User2 /> {user?.email}
                     <ChevronUp className="ml-auto" />
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
@@ -129,13 +125,7 @@ export function AppSidebar({ variant = undefined }: { variant?: "inset" | "sideb
                   side="top"
                   className="w-[--radix-popper-anchor-width]"
                 >
-                  <DropdownMenuItem>
-                    <span>Account</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <span>Billing</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={signOut}>
                     <span>Sign out</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
