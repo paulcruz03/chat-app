@@ -39,8 +39,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             });
 
             setChats(loadedItems)
-            setLoading(false)
           }
+          setLoading(false)
         })
       } else {
         setUser(null);

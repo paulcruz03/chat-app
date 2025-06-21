@@ -1,5 +1,5 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
-import { Auth, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { Auth, getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { child, Database, get, getDatabase, orderByChild, query, ref } from "firebase/database";
 import Cookies from "js-cookie";
 
@@ -33,7 +33,7 @@ export async function signIn(email: string, password: string) {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
     const idToken = await userCredential.user.getIdToken();
-    await Cookies.set("__session", idToken, {
+    Cookies.set("__session", idToken, {
       expires: 7
     })
 
@@ -44,10 +44,33 @@ export async function signIn(email: string, password: string) {
   }
 }
 
+export async function signInWithGoogle() {
+  const { auth } = setupFirebase();
+  const provider = new GoogleAuthProvider();
+
+  return signInWithPopup(auth, provider)
+    .then(async (result) => {
+      const userCredential = await GoogleAuthProvider.credentialFromResult(result);
+      if (userCredential?.idToken) {
+        await Cookies.set("__session", userCredential?.idToken, {
+          expires: 7
+        })
+
+        return userCredential;
+      }
+      return null
+    }).catch((error) => {
+      console.error("Error signing in:", error);
+      throw error;
+    });
+}
+
 export async function getUser() {
   try {
     const { auth } = setupFirebase();
     const user = auth.currentUser;
+
+    const userCookie = Cookies.get("__session")
     if (!user) {
       throw new Error("No user is currently signed in");
     }

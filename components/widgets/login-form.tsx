@@ -1,7 +1,7 @@
 "use client"
 
-import { Loader2 } from "lucide-react"
-import { useEffect, useState } from "react"
+import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react"
+import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -20,15 +20,13 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { signIn } from "@/lib/firebase-client"
-import { useAuth } from "@/contexts/auth"
 
 const FormSchema = z.object({
-  username: z.string().min(8, {
-    message: "Username must be at least 8 characters.",
+  email: z.string().min(8, {
+    message: "Email must be at least 8 characters.",
   }),
   password: z.string().min(8, {
     message: "Password must be at least 8 characters.",
@@ -36,39 +34,23 @@ const FormSchema = z.object({
 })
 
 export function LoginForm() {
-  const { user } = useAuth()
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  useEffect(() => {
-    if (user) {
-      console.log(user)
-    }
-  }, [user])
+  const [showPassword, setShowPassword] = useState(false);
   
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   })
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsSubmitted(true)
-    toast("You submitted the following values", {
-      description: (
-        <pre className="mt-2 w-[320px] rounded-md bg-neutral-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
     try {
-      await signIn(data.username, data.password)
+      await signIn(data.email, data.password)
       toast.success("Login successful!")
-      if (user) {
-        window.location.replace("/")
-      }
-      // window.location.reload()
+      window.location.reload();
     } catch (err: any) {
       toast.error(err.message)
       setIsSubmitted(false)
@@ -78,21 +60,20 @@ export function LoginForm() {
   return (
     <Card className="w-1/4">
       <CardHeader>
-        <CardTitle>Login</CardTitle>
+        <CardTitle className="text-center">LOGIN</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
-              name="username"
+              name="email"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
+                <FormItem className="flex">
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input placeholder="sample@gmail.com" {...field} type="email" />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -100,21 +81,33 @@ export function LoginForm() {
               control={form.control}
               name="password"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex">
                   <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input placeholder="••••••••" {...field} type="password" />
+                  <FormControl className="w-80">
+                    <Input placeholder={showPassword ? "password" : "••••••••"} {...field} type={showPassword ? "input" : "password"} />
                   </FormControl>
-                  <FormMessage />
+                  <Button type="button" onClick={() => setShowPassword(prev => !prev)}>
+                    {showPassword ? (
+                      <EyeIcon className="h-4 w-4" aria-hidden="true" />
+                    ) : (
+                      <EyeOffIcon className="h-4 w-4" aria-hidden="true" />
+                    )}
+                  </Button>
                 </FormItem>
               )}
             />
-            <Button disabled={isSubmitted} type="submit" className="w-full">
+            <Button disabled={isSubmitted} type="submit" className="w-full mb-2">
               {isSubmitted ? <span className="flex items-center gap-2">
                   <Loader2 className="animate-spin" />
                   Please wait
               </span> : <span>Login</span>}
             </Button>
+            {/* <Button onClick={signInWithGoogle} disabled={isSubmitted} type="button" variant="outline" className="w-full">
+              {isSubmitted ? <span className="flex items-center gap-2">
+                  <Loader2 className="animate-spin" />
+                  Please wait
+              </span> : <span>Login with Google</span>}
+            </Button> */}
           </form>
         </Form>
       </CardContent>
