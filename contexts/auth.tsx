@@ -9,6 +9,7 @@ interface AuthContextType {
   user: User | null;
   chats: ChatHistoryEntry[];
   loading: boolean;
+  refetchChats: () => {}
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -31,10 +32,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
               const itemKey = childSnapshot.key;
               const itemValue = childSnapshot.val();
 
-              // Add the key to the item object for easier rendering
-              loadedItems.push({
+              loadedItems.unshift({
                 id: itemKey,
-                ...itemValue // Spread the item's properties (name, price, etc.)
+                ...itemValue 
               });
             });
 
@@ -51,8 +51,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => unsubscribe();
   }, []);
 
+  const refetchChats = async () => {
+    const snapshot = await getChatList()
+    if (snapshot.exists()) {
+      const loadedItems: ChatHistoryEntry[] = [];
+
+      snapshot.forEach((childSnapshot) => {
+        const itemKey = childSnapshot.key;
+        const itemValue = childSnapshot.val();
+
+        loadedItems.unshift({
+          id: itemKey,
+          ...itemValue
+        });
+      });
+
+      setChats(loadedItems)
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, loading, chats }}>
+    <AuthContext.Provider value={{ user, loading, chats, refetchChats }}>
       {children}
     </AuthContext.Provider>
   );

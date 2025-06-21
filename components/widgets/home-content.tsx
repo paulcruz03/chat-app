@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import ChatInput from "@/components/widgets/chat/input";
 
 export default function HomeContent() {
-  const { user } = useAuth()
+  const { user, refetchChats } = useAuth()
   const [isSubmitted, setIsSubmitted] = useState(false);
   
   async function submit(message: string) {
@@ -16,9 +16,9 @@ export default function HomeContent() {
     if (user) {
       const response = await initiateChat(await user.getIdToken(), message)
       if (response) {
+        await refetchChats()
         redirect(`/chats/${response.chatId}`)
       }
-     
       toast.success("Error encountered")
     }
     setIsSubmitted(false)

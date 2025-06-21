@@ -1,6 +1,6 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
-import { Auth, getAuth, onIdTokenChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { child, Database, get, getDatabase, ref } from "firebase/database";
+import { Auth, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { child, Database, get, getDatabase, orderByChild, query, ref } from "firebase/database";
 import Cookies from "js-cookie";
 
 // Your web app's Firebase configuration
@@ -79,9 +79,8 @@ export async function getChatList() {
     }
     
     const dbRef = ref(realtimeDb);
-    const chats = await get(child(dbRef, `${user.uid}/chats`))
-    console.log("Chats:", chats.val());
-    return chats
+    const chats = await query(child(dbRef, `${user.uid}/chats`), orderByChild('createdAt'))
+    return await get(chats.ref)
   } catch (error) {
     console.error("Error getting chat list:", error);
     throw error;

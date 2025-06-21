@@ -58,7 +58,6 @@ export function ChatUi({ chatId }: { chatId: string }) {
           setIsLoading(true)
         } else {
           setIsLoading(false)
-          console.log(currentChat)
           setCurretChat(prev => [...prev, { role: "model", text: msgData.message }])
           scrollToLatest()
         }
