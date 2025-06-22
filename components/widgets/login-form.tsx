@@ -40,8 +40,8 @@ export function LoginForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: "test@yopmail.com",
+      password: "P@55w0rd",
     },
   })
 
@@ -70,7 +70,7 @@ export function LoginForm() {
               name="email"
               render={({ field }) => (
                 <FormItem className="flex">
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="w-20">Email</FormLabel>
                   <FormControl>
                     <Input placeholder="sample@gmail.com" {...field} type="email" />
                   </FormControl>
@@ -82,8 +82,8 @@ export function LoginForm() {
               name="password"
               render={({ field }) => (
                 <FormItem className="flex">
-                  <FormLabel>Password</FormLabel>
-                  <FormControl className="w-80">
+                  <FormLabel className="w-20">Password</FormLabel>
+                  <FormControl>
                     <Input placeholder={showPassword ? "password" : "••••••••"} {...field} type={showPassword ? "input" : "password"} />
                   </FormControl>
                   <Button type="button" onClick={() => setShowPassword(prev => !prev)}>
