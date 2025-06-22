@@ -48,7 +48,7 @@ export function ChatUi({ chatId }: { chatId: string }) {
         }
       }
     }
-  }, [chats, loading])
+  }, [chats, loading, chatId])
 
   useEffect(() => {
     if (ws) {
@@ -61,7 +61,6 @@ export function ChatUi({ chatId }: { chatId: string }) {
           setCurretChat(prev => [...prev, { role: "model", text: msgData.message }])
           scrollToLatest()
         }
-        console.log(msgData)
       }
     }
   }, [ws])

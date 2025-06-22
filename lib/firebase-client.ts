@@ -70,7 +70,6 @@ export async function getUser() {
     const { auth } = setupFirebase();
     const user = auth.currentUser;
 
-    const userCookie = Cookies.get("__session")
     if (!user) {
       throw new Error("No user is currently signed in");
     }

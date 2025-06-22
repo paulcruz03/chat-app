@@ -1,7 +1,6 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/sidebar"
 import { Header } from "@/components/header";
-import { Suspense } from "react";
 
 export default function VerifiedLayout({
   children,

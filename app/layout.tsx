@@ -4,7 +4,6 @@ import { Toaster } from "@/components/ui/sonner"
 
 import "./globals.css";
 import { AuthProvider } from '@/contexts/auth';
-import { setupServerFirebase } from "@/lib/firebase-server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

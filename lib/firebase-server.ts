@@ -1,7 +1,6 @@
 import { FirebaseServerApp, initializeApp, initializeServerApp } from "firebase/app";
 import { Auth, getAuth } from "firebase/auth";
 import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
 
 const firebaseConfig = JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_CONFIG ?? '{}')
 

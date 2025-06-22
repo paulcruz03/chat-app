@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 
-export default function ChatInput({ loading, hideTitle, submit }: { loading: boolean; hideTitle?: boolean; submit: (message: string)=>{} }) {
-  const [message, setMessage] = useState('');
+export default function ChatInput({ loading, hideTitle, submit }: { loading: boolean; hideTitle?: boolean; submit: (message: string) => void }) {
+  const [message, setMessage] = useState<string>("");
 
   function onEnterPress(e: KeyboardEvent) {
     if(e.keyCode == 13 && e.shiftKey == false) {

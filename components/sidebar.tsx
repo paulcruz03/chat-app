@@ -1,7 +1,7 @@
 'use client';
 import { JSX } from "react";
 
-import { ChevronUp, Home, Inbox, User2 } from "lucide-react"
+import { ChevronUp, Home, User2 } from "lucide-react"
 
 import {
   Sidebar,

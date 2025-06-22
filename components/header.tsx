@@ -8,7 +8,7 @@ import {
   // navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { signOut } from "@/lib/firebase-client"
+// import { signOut } from "@/lib/firebase-client"
             
 export function NavigationMenuDemo() {
   return (
