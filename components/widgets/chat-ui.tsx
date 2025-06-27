@@ -2,6 +2,7 @@
 
 import { JSX, useEffect, useRef, useState } from "react";
 import MarkdownView from 'react-showdown';
+import { Loader2 } from "lucide-react";
 
 import {
   Card,
@@ -13,11 +14,11 @@ import { useAuth } from "@/contexts/auth";
 import { startChat } from "@/lib/api";
 import ChatInput from "@/components/widgets/chat/input";
 import { ChatHistory, WsMessage } from "@/schema";
-import { Loader2 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function Chat({ mode, text }: { text:string, mode: 'user' | 'model'; }): JSX.Element {
   return <div className={`
-    text-white w-2/3 p-4 rounded-md mt-4
+    text-white w-3/4 p-4 rounded-md mt-4
     ${mode === 'user' ? 'bg-indigo-900 text-right self-end' : 'bg-indigo-500 text-left w-2/3'}
   `}>
     <MarkdownView
@@ -83,12 +84,13 @@ export function ChatUi({ chatId }: { chatId: string }) {
       <Card className="w-full mx-10 lg:max-w-5xl mb-4">
         <CardHeader>
           <CardTitle className="text-center">
+            {isLoading && <Skeleton className="h-(--text-2xl) w-1/2 justify-self-center" />}
             <h2 className="text-2xl">
               {title}
             </h2>
           </CardTitle>
         </CardHeader>
-        <CardContent ref={chatbox} className="overflow-y-auto lg:max-h-165 max-h-130 flex flex-col">
+        <CardContent ref={chatbox} className="overflow-y-auto overflow-x-hidden lg:max-h-165 max-h-130 flex flex-col">
           {
             (!user)
               ? <Loader2 className="animate-spin flex self-center justify-self-center m-4" />
