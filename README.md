@@ -15,4 +15,6 @@ npm run dev
 - setup env
 ```
 NEXT_PUBLIC_FIREBASE_CONFIG=${key}
+NEXT_PUBLIC_API=${}
+NEXT_PUBLIC_WS=${}
 ```

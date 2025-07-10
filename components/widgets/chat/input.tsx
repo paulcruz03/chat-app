@@ -29,7 +29,7 @@ export default function ChatInput({ loading, hideTitle, submit }: { loading: boo
   }
 
   return (
-    <Card className="w-full mx-10 lg:max-w-5xl">
+    <Card className="w-full mx-10 lg:max-w-3xl mb-4">
       {!hideTitle && <CardHeader>
         <CardTitle className="text-center">
           <h2 className="text-2xl">

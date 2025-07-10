@@ -18,10 +18,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 function Chat({ mode, text }: { text:string, mode: 'user' | 'model'; }): JSX.Element {
   return <div className={`
-    text-white w-3/4 p-4 rounded-md mt-4
-    ${mode === 'user' ? 'bg-indigo-900 text-right self-end' : 'bg-indigo-500 text-left w-2/3'}
+    text-white w-98 p-4 rounded-md mt-4
+    ${mode === 'user' ? 'bg-indigo-900 text-right self-end' : 'bg-indigo-500 text-left'}
   `}>
     <MarkdownView
+      className="chat-message"
       markdown={text}
       options={{ tables: true, emoji: true }}
     />
@@ -49,7 +50,7 @@ export function ChatUi({ chatId }: { chatId: string }) {
         }
       }
     }
-  }, [chats, loading, chatId])
+  }, [chats, loading, chatId, user])
 
   useEffect(() => {
     if (ws) {
@@ -81,7 +82,7 @@ export function ChatUi({ chatId }: { chatId: string }) {
 
   return (
     <>
-      <Card className="w-full mx-10 lg:max-w-5xl mb-4">
+      <Card className="w-full mx-10 lg:max-w-3xl mb-4">
         <CardHeader>
           <CardTitle className="text-center">
             {isLoading && <Skeleton className="h-(--text-2xl) w-1/2 justify-self-center" />}
@@ -90,7 +91,7 @@ export function ChatUi({ chatId }: { chatId: string }) {
             </h2>
           </CardTitle>
         </CardHeader>
-        <CardContent ref={chatbox} className="overflow-y-auto overflow-x-hidden lg:max-h-165 max-h-130 flex flex-col">
+        <CardContent ref={chatbox} className="overflow-y-auto overflow-x-hidden md:max-h-[40vh] max-h-[40vh] flex flex-col">
           {
             (!user)
               ? <Loader2 className="animate-spin flex self-center justify-self-center m-4" />

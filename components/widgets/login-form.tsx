@@ -62,7 +62,7 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="w-1/4">
+    <Card className="xl:w-1/4 mx-2">
       <CardHeader>
         <CardTitle className="text-center">LOGIN</CardTitle>
       </CardHeader>

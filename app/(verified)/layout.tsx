@@ -12,7 +12,7 @@ export default function VerifiedLayout({
       <AppSidebar />
       <SidebarInset>
         <Header />
-        <main>
+        <main className="container max-w-6xl">
           {children}
         </main>
       </SidebarInset>
